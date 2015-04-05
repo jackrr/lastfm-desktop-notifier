@@ -11,6 +11,11 @@ var nextSong = function(err, song){
   if (err) {
     return console.log("error getting current song:", err)
   }
+
+  desktopInterface.desktopNotification({title: 'Track: '+song.name, body: 'Album: '+song.album, subtitle: 'Artist: '+song.artist}, function(err, response){
+    if (err) console.log("error notifying song change", err)
+  })
+
   if (!song.albumUrl || !song.albumUrl.length) {
     return console.log("no albumUrl given for song", song.name)
   }
@@ -27,9 +32,6 @@ var nextSong = function(err, song){
         if (err){
           console.log("error setting desktop image", err)
         }
-      })
-      desktopInterface.desktopNotification({title: 'Track: '+song.name, body: 'Album: '+song.album, subtitle: 'Artist: '+song.artist}, function(err, response){
-        if (err) console.log("error notifying song change", err)
       })
     }
   }, {tile: true})
